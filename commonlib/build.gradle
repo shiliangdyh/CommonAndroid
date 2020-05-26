@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 29
@@ -25,23 +26,23 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 }
+
 
 
 def versionName(){
     return "1.0.0"
 }
-apply plugin: 'com.novoda.bintray-release'
 publish {
+    repoName = 'CommonAndroid'
     userOrg = 'shiliangdyh'//bintray.com用户名
-    groupId = 'com.github.commonlib'//jcenter上的路径
-    artifactId = 'CommonAndroid'//项目名称
+    groupId = 'com.stone'//jcenter上的路径
+    artifactId = 'CommonLib'//项目名称
     publishVersion = versionName()//版本号
     desc = 'Oh hi, this is android common util'//描述，不重要
-    website = 'https://github.com/mirstone/commonutil'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+    website = 'https://github.com/shiliangdyh/CommonAndroid/tree/master/commonlib'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
