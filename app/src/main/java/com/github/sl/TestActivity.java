@@ -1,40 +1,34 @@
 package com.github.sl;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.github.commonlib.utils.LogUtils;
+import androidx.annotation.Nullable;
+
 import com.github.commonlib.utils.StatusBarUtils;
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-
+public class TestActivity extends Activity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(0,0);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        LogUtils.init(this);
-        LogUtils.d(TAG, "onCreate: ");
-    }
+        setContentView(R.layout.activity_test);
 
-    public void onClick(View view) {
-        startActivity(new Intent(this, TestActivity.class));
-    }
 
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        setImmersiveStatusBar(view);
     }
 
     @Override
     public void setContentView(int layoutResID) {
         View view = LayoutInflater.from(this).inflate(layoutResID, null);
+        super.setContentView(view);
+        setImmersiveStatusBar(view);
+    }
+
+    @Override
+    public void setContentView(View view) {
         super.setContentView(view);
         setImmersiveStatusBar(view);
     }
@@ -49,5 +43,17 @@ public class MainActivity extends AppCompatActivity {
             StatusBarUtils.setColorNoTranslucent(this, Color.WHITE);
         }
         StatusBarUtils.setFitsSystemWindows(view, true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,0);
     }
 }
