@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.github.commonlib.base.SLBaseActivity;
 import com.github.commonlib.utils.LogUtils;
+import com.github.commonlib.utils.StatusBarUtils;
 
 public class MainActivity extends SLBaseActivity {
     private static final String TAG = "MainActivity";
