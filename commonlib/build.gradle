@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 104
+        versionCode 105
         versionName versionName()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -37,7 +37,7 @@ dependencies {
 
 
 def versionName(){
-    return "1.0.4"
+    return "1.0.5"
 }
 publish {
     repoName = 'CommonAndroid'
