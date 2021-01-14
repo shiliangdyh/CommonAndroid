@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 3
+        versionCode 104
         versionName versionName()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,12 +31,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 }
 
 
 
 def versionName(){
-    return "1.0.2"
+    return "1.0.4"
 }
 publish {
     repoName = 'CommonAndroid'
@@ -47,3 +48,9 @@ publish {
     desc = 'Oh hi, this is android common util'//描述，不重要
     website = 'https://github.com/shiliangdyh/CommonAndroid/tree/master/commonlib'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
+
+//步骤
+
+//1、generatePomFileForReleasePublication
+//2、publishReleasePublicationToMavenLocal
+//3、 执行命令：./gradlew bintrayUpload -PbintrayUser=shiliangdyh -PbintrayKey=3bbcb277665b93f7cee1cf8163c39b47b00fd463 -PdryRun=false
