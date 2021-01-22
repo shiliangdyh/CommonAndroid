@@ -1,10 +1,8 @@
 package com.github.sl;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,12 +11,9 @@ import com.github.commonlib.base.SLBaseActivity;
 import com.github.commonlib.utils.FileUtils;
 import com.github.commonlib.utils.LogUtils;
 import com.github.commonlib.utils.ShareUtils;
-import com.github.commonlib.utils.StatusBarUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends SLBaseActivity {
     private static final String TAG = "MainActivity";
@@ -28,12 +23,22 @@ public class MainActivity extends SLBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LogUtils.init(this);
-        LogUtils.d(TAG, "onCreate: ");
+
+        List<User> users = UserDAO.queryUsers(this);
+
+        for (int j = 0; j < users.size(); j++) {
+            User user = users.get(i);
+            LogUtils.d(TAG, "onCreate: " + user.toString());
+        }
 
     }
 
     public void onClick(View view) {
-
+        User user = new User();
+        user.setAge(10);
+        user.setName("shiliang");
+        user.setJob("android");
+        UserDAO.insert(this, user);
         ShareUtils.share2WeiBo(this, "消息内容", saveBitmap(FileUtils.getExternalFileDir(this, "null"), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new)));
     }
 

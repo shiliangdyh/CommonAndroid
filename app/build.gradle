@@ -33,6 +33,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':commonlib')
 //    implementation 'com.stone:CommonLib:1.0.5'
+
+    //电脑查看数据库 1、手机连接电脑 2、手机电脑连接同一wifi 3、打开控制台输出的地址(DebugDB: Open http://192.168.16.16:8080 in your browser)
+    implementation 'com.amitshekhar.android:debug-db:1.0.6'
 }
 repositories {
     mavenCentral()

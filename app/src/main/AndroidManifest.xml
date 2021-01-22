@@ -17,7 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestActivity" android:theme="@style/ActivityTranslucent"/>
+        <activity
+            android:name=".TestActivity"
+            android:theme="@style/ActivityTranslucent" />
+
+        <provider
+            android:name=".MyProvider"
+            android:authorities="com.github.sl.db.provider"
+            android:exported="false" />
     </application>
 
 </manifest>

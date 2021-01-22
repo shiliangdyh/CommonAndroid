@@ -54,3 +54,6 @@ publish {
 //1、generatePomFileForReleasePublication
 //2、publishReleasePublicationToMavenLocal
 //3、 执行命令：./gradlew bintrayUpload -PbintrayUser=shiliangdyh -PbintrayKey=3bbcb277665b93f7cee1cf8163c39b47b00fd463 -PdryRun=false
+
+//电脑查看数据库 1、手机连接电脑 2、手机电脑连接同一wifi 3、打开控制台输出的地址(DebugDB: Open http://192.168.16.16:8080 in your browser)
+//debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
