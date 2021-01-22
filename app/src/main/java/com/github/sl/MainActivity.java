@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.github.commonlib.base.SLBaseActivity;
 import com.github.commonlib.utils.FileUtils;
 import com.github.commonlib.utils.LogUtils;
-import com.github.commonlib.utils.ShareUtils;
 
 import java.io.File;
 import java.util.List;
@@ -27,7 +26,7 @@ public class MainActivity extends SLBaseActivity {
         List<User> users = UserDAO.queryUsers(this);
 
         for (int j = 0; j < users.size(); j++) {
-            User user = users.get(i);
+            User user = users.get(j);
             LogUtils.d(TAG, "onCreate: " + user.toString());
         }
 
@@ -35,11 +34,12 @@ public class MainActivity extends SLBaseActivity {
 
     public void onClick(View view) {
         User user = new User();
-        user.setAge(10);
-        user.setName("shiliang");
-        user.setJob("android");
+        user.setAge(10 + i);
+        user.setName("shiliang" + i);
+        user.setJob("android" + i);
         UserDAO.insert(this, user);
-        ShareUtils.share2WeiBo(this, "消息内容", saveBitmap(FileUtils.getExternalFileDir(this, "null"), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new)));
+        i++;
+//        ShareUtils.share2WeiBo(this, "消息内容", saveBitmap(FileUtils.getExternalFileDir(this, "null"), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new)));
     }
 
 
