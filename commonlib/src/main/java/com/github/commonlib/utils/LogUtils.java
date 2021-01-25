@@ -30,7 +30,7 @@ public class LogUtils {
     }
 
     public static void init(Context mContext) {
-        LogUtils.mContext = mContext.getApplicationContext();
+        LogUtils.mContext = mContext.getApplicationContext() == null ? mContext : mContext.getApplicationContext();
     }
 
     public static boolean isIsDebug() {
