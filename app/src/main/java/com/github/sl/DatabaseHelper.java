@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.github.commonlib.utils.LogUtils;
 
@@ -16,11 +17,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_TEST = "Test";
 
+    public static final String SQL_CREATE_TEST = "create table Test ( _id INTEGER PRIMARY KEY AUTOINCREMENT,name text not null,job text ,age INTEGER )";
+
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static DatabaseHelper getInstance(Context context){
+    public static DatabaseHelper getInstance(Context context) {
         if (null == databaseHelper) {
             databaseHelper = new DatabaseHelper(context);
         }
@@ -29,32 +32,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        StringBuilder sb = new StringBuilder();
+        //Test 表1.0
+        db.execSQL(SQL_CREATE_TEST);
+        onUpgrade(db, 1, DATABASE_VERSION);
 
-        sb.append("create table ");
-        sb.append(TABLE_TEST);
-        sb.append(" ( ");
-//        sb.append(" ( ").append(BaseColumns._USER_PHONENO).append(" text ,");
-        sb.append(UserColumns._ID);
-        sb.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
-        sb.append(UserColumns.NAME);
-        sb.append(" text not null,");
-        sb.append(UserColumns.JOB);
-        sb.append(" text ,");
-        sb.append(UserColumns.AGE);
-        sb.append(" INTEGER );");
-        db.execSQL(sb.toString());
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         LogUtils.d(TAG, "onUpgrade: oldVersion=" + oldVersion + " ,newVersion=" + newVersion);
+        for (int i = oldVersion; i < newVersion; i++) {
+            switch (i) {
+                case 1:
+                    try {
+                        db.beginTransaction();
+                        // rename the table
+                        String tempTable = TABLE_TEST + "texp_temptable";
+                        String renameTableSql = "alter table " + TABLE_TEST + " rename to " + tempTable;
+                        db.execSQL(renameTableSql);// drop the oldtable
+                        String dropTableSql = "drop table if exists " + TABLE_TEST;
+                        db.execSQL(dropTableSql);
+                        // creat table
+                        String createTableSql = "create table if not exists Test ( _id INTEGER PRIMARY KEY AUTOINCREMENT,name text not null,pwd text ,age INTEGER )";
+                        db.execSQL(createTableSql);
+                        // load data
+                        String insertSql = "INSERT INTO Test (id,name,age) SELECT id,name,age FROM texp_temptable";
+                        db.execSQL(insertSql);
+                        //Drop temp table
+                        String deleteSql = "DROP TABLE IF EXISTS "+tempTable;
+                        db.execSQL(deleteSql);
+                        db.setTransactionSuccessful();
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                        Log.i("tag", e.getMessage());
+                    } finally {
+                        db.endTransaction();
+                    }
+                    break;
+                case 2:
+                    break;
+            }
+        }
     }
 
-    public interface UserColumns extends BaseColumns{
+    public interface UserColumns extends BaseColumns {
         String NAME = "name";
-        String JOB = "job";
+        String PSW = "pwd";
         String AGE = "age";
     }
 }

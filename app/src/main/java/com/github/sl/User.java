@@ -4,15 +4,24 @@ import android.database.Cursor;
 
 public class User {
     private String name;
-    private String job;
+    private String psw;
     private int age;
 
     public static User readCursor(Cursor cursor) {
         User user = new User();
         user.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.UserColumns.NAME)));
-        user.setJob(cursor.getString(cursor.getColumnIndex(DatabaseHelper.UserColumns.JOB)));
+        user.setPsw(cursor.getString(cursor.getColumnIndex(DatabaseHelper.UserColumns.PSW)));
         user.setAge(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.UserColumns.AGE)));
         return user;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", psw='" + psw + '\'' +
+                ", age=" + age +
+                '}';
     }
 
     public String getName() {
@@ -23,12 +32,12 @@ public class User {
         this.name = name;
     }
 
-    public String getJob() {
-        return job;
+    public String getPsw() {
+        return psw;
     }
 
-    public void setJob(String job) {
-        this.job = job;
+    public void setPsw(String psw) {
+        this.psw = psw;
     }
 
     public int getAge() {
@@ -38,14 +47,4 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", job='" + job + '\'' +
-                ", age=" + age +
-                '}';
-    }
-
 }

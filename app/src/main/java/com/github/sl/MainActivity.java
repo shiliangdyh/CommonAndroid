@@ -1,5 +1,6 @@
 package com.github.sl;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MainActivity extends SLBaseActivity {
             User user = users.get(j);
             LogUtils.d(TAG, "onCreate: " + user.toString());
         }
+        SQLiteDatabase db = DatabaseHelper.getInstance(this).getReadableDatabase();
+        Log.d(TAG, "onCreate: " + UserDAO.getColumnNames(db, "Test"));
 
     }
 
@@ -36,7 +39,7 @@ public class MainActivity extends SLBaseActivity {
         User user = new User();
         user.setAge(10 + i);
         user.setName("shiliang" + i);
-        user.setJob("android" + i);
+        user.setPsw("pwd" + i);
         UserDAO.insert(this, user);
         i++;
 //        ShareUtils.share2WeiBo(this, "消息内容", saveBitmap(FileUtils.getExternalFileDir(this, "null"), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new)));
