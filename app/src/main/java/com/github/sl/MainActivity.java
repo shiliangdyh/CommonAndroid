@@ -1,6 +1,5 @@
 package com.github.sl;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,9 +10,12 @@ import android.widget.ImageView;
 import com.github.commonlib.base.SLBaseActivity;
 import com.github.commonlib.utils.FileUtils;
 import com.github.commonlib.utils.LogUtils;
+import com.github.commonlib.utils.ShareUtils;
 
 import java.io.File;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends SLBaseActivity {
     private static final String TAG = "MainActivity";
@@ -22,27 +24,51 @@ public class MainActivity extends SLBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LogUtils.init(this);
+        LogUtils.d(TAG, "onCreate: ");
+        ImageView imageView = (ImageView) findViewById(R.id.iv_img);
 
+//        saveBitmap(FileUtils.getPrivateFileDir(this), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new));
+//        saveBitmap(FileUtils.getPrivateCacheDir(this), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new));
+//        saveBitmap(FileUtils.getPrivateRootDir(this), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new));
+//        saveBitmap(FileUtils.getExternalCacheDir(this), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new));
+//        saveBitmap(FileUtils.getPrivateRootDir(this), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new));
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new);
 
-        List<User> users = UserDAO.queryUsers(this);
+//        imageView.setImageBitmap(bitmap);
+        try {
 
-        for (int j = 0; j < users.size(); j++) {
-            User user = users.get(j);
-            LogUtils.d(TAG, "onCreate: " + user.toString());
+            File test = new File(FileUtils.getExternalPublicStorageDir(this, ""), "shiliang");
+            if (!test.exists()) {
+                test.mkdirs();
+            }
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new);
+            String s = saveBitmap(test, bitmap);
+
+            imageView.setImageBitmap(BitmapFactory.decodeFile(s));
+
+            File file = new File(test, "test.txt");
+            FileOutputStream outputStream = null;
+            if (file.exists()) {
+                outputStream = new FileOutputStream(file, true);
+            }else {
+                outputStream = new FileOutputStream(file);
+            }
+            outputStream.write("hello\r\n".getBytes());
+            outputStream.flush();
+            outputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        SQLiteDatabase db = DatabaseHelper.getInstance(this).getReadableDatabase();
-        Log.d(TAG, "onCreate: " + UserDAO.getColumnNames(db, "Test"));
 
     }
 
     public void onClick(View view) {
-        User user = new User();
-        user.setAge(10 + i);
-        user.setName("shiliang" + i);
-        user.setPsw("pwd" + i);
-        UserDAO.insert(this, user);
-        i++;
-//        ShareUtils.share2WeiBo(this, "消息内容", saveBitmap(FileUtils.getExternalFileDir(this, "null"), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new)));
+
+        ShareUtils.share2WeiBo(this, "消息内容", saveBitmap(FileUtils.getExternalCacheDir(this), BitmapFactory.decodeResource(getResources(), R.drawable.about_icon_new)));
     }
 
 
@@ -61,8 +87,6 @@ public class MainActivity extends SLBaseActivity {
         shareImagePath = imageFile.getAbsolutePath();
         String s = FileUtils.saveBitmap(bitmap, shareImagePath);
         Log.d(TAG, "saveBitmap: success " + i++ + s) ;
-        ImageView imageView = (ImageView) findViewById(R.id.iv_img);
-        imageView.setImageBitmap(BitmapFactory.decodeFile(s));
         return shareImagePath;
     }
 }
