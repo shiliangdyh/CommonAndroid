@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.github.commonlib.utils.LogUtils;
 
@@ -34,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //Test 表1.0
         db.execSQL(SQL_CREATE_TEST);
-        onUpgrade(db, 1, DATABASE_VERSION);
+//        onUpgrade(db, 1, DATABASE_VERSION);
 
 
     }
@@ -42,38 +41,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         LogUtils.d(TAG, "onUpgrade: oldVersion=" + oldVersion + " ,newVersion=" + newVersion);
-        for (int i = oldVersion; i < newVersion; i++) {
-            switch (i) {
-                case 1:
-                    try {
-                        db.beginTransaction();
-                        // rename the table
-                        String tempTable = TABLE_TEST + "texp_temptable";
-                        String renameTableSql = "alter table " + TABLE_TEST + " rename to " + tempTable;
-                        db.execSQL(renameTableSql);// drop the oldtable
-                        String dropTableSql = "drop table if exists " + TABLE_TEST;
-                        db.execSQL(dropTableSql);
-                        // creat table
-                        String createTableSql = "create table if not exists Test ( _id INTEGER PRIMARY KEY AUTOINCREMENT,name text not null,pwd text ,age INTEGER )";
-                        db.execSQL(createTableSql);
-                        // load data
-                        String insertSql = "INSERT INTO Test (id,name,age) SELECT id,name,age FROM texp_temptable";
-                        db.execSQL(insertSql);
-                        //Drop temp table
-                        String deleteSql = "DROP TABLE IF EXISTS "+tempTable;
-                        db.execSQL(deleteSql);
-                        db.setTransactionSuccessful();
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        Log.i("tag", e.getMessage());
-                    } finally {
-                        db.endTransaction();
-                    }
-                    break;
-                case 2:
-                    break;
-            }
-        }
+//        for (int i = oldVersion; i < newVersion; i++) {
+//            switch (i) {
+//                case 1:
+//                    try {
+//                        db.beginTransaction();
+//                        // rename the table
+//                        String tempTable = TABLE_TEST + "texp_temptable";
+//                        String renameTableSql = "alter table " + TABLE_TEST + " rename to " + tempTable;
+//                        db.execSQL(renameTableSql);// drop the oldtable
+//                        String dropTableSql = "drop table if exists " + TABLE_TEST;
+//                        db.execSQL(dropTableSql);
+//                        // creat table
+//                        String createTableSql = "create table if not exists Test ( _id INTEGER PRIMARY KEY AUTOINCREMENT,name text not null,pwd text ,age INTEGER )";
+//                        db.execSQL(createTableSql);
+//                        // load data
+//                        String insertSql = "INSERT INTO Test (id,name,age) SELECT id,name,age FROM texp_temptable";
+//                        db.execSQL(insertSql);
+//                        //Drop temp table
+//                        String deleteSql = "DROP TABLE IF EXISTS "+tempTable;
+//                        db.execSQL(deleteSql);
+//                        db.setTransactionSuccessful();
+//                    } catch (Exception e) {
+//                        // TODO: handle exception
+//                        Log.i("tag", e.getMessage());
+//                    } finally {
+//                        db.endTransaction();
+//                    }
+//                    break;
+//                case 2:
+//                    break;
+//            }
+//        }
     }
 
     public interface UserColumns extends BaseColumns {

@@ -42,7 +42,6 @@ public class MyProvider extends ContentProvider {
         } catch (Exception e) {
             databaseHelper.close();
             databaseHelper = null;
-            System.exit(0);
             e.printStackTrace();
         }
         return true;

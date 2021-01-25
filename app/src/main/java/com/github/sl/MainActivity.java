@@ -1,5 +1,6 @@
 package com.github.sl;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.github.commonlib.utils.FileUtils;
 import com.github.commonlib.utils.LogUtils;
 
 import java.io.File;
+import java.util.List;
 
 public class MainActivity extends SLBaseActivity {
     private static final String TAG = "MainActivity";
@@ -20,16 +22,16 @@ public class MainActivity extends SLBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LogUtils.init(this);
 
-//        List<User> users = UserDAO.queryUsers(this);
-//
-//        for (int j = 0; j < users.size(); j++) {
-//            User user = users.get(j);
-//            LogUtils.d(TAG, "onCreate: " + user.toString());
-//        }
-//        SQLiteDatabase db = DatabaseHelper.getInstance(this).getReadableDatabase();
-//        Log.d(TAG, "onCreate: " + UserDAO.getColumnNames(db, "Test"));
+
+        List<User> users = UserDAO.queryUsers(this);
+
+        for (int j = 0; j < users.size(); j++) {
+            User user = users.get(j);
+            LogUtils.d(TAG, "onCreate: " + user.toString());
+        }
+        SQLiteDatabase db = DatabaseHelper.getInstance(this).getReadableDatabase();
+        Log.d(TAG, "onCreate: " + UserDAO.getColumnNames(db, "Test"));
 
     }
 
