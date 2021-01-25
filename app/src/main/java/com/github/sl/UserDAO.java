@@ -94,7 +94,7 @@ public class UserDAO {
 
     private static void bindAppValue(ContentValues values, User user) {
         values.put(DatabaseHelper.UserColumns.NAME, user.getName());
-        values.put(DatabaseHelper.UserColumns.JOB, user.getJob());
+        values.put(DatabaseHelper.UserColumns.PSW, user.getPsw());
         values.put(DatabaseHelper.UserColumns.AGE, user.getAge());
     }
 }

@@ -11,7 +11,7 @@ import com.github.commonlib.utils.LogUtils;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "test.db";
     private static DatabaseHelper databaseHelper;
 
